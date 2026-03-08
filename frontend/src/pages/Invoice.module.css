@@ -1,0 +1,118 @@
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+}
+
+.btnSecondary {
+  padding: 0.6rem 1rem;
+  background: var(--surface-hover);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.btnSecondary:hover {
+  background: var(--border);
+}
+
+.invoice {
+  background: #fff;
+  color: #1a1a1a;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.invoiceHeader {
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.invoiceHeader h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.invoiceHeader p {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.meta {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.meta p {
+  margin-bottom: 0.25rem;
+}
+
+.pendingMsg {
+  margin-top: 0.5rem;
+  color: var(--warning);
+  font-weight: 500;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.table th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+.total {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.error {
+  color: var(--error);
+}
+
+@media print {
+  .actions {
+    display: none !important;
+  }
+
+  .invoice {
+    box-shadow: none;
+    padding: 0;
+  }
+
+  body {
+    background: #fff;
+  }
+}
