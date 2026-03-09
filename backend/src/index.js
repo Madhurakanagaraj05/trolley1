@@ -10,7 +10,28 @@ const authRoutes = require("./routes/auth");
 const app = express();
 
 // Middleware
-app.use(cors());
+// Allow local dev and deployed frontend on Vercel
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:3002",
+  "http://localhost:3003",
+  "http://localhost:3004",
+  "http://localhost:3005",
+  "https://trolley-rho.vercel.app",
+];
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow non-browser tools / same-origin requests (no origin header)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS"), false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Routes
