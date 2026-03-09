@@ -1,45 +1,29 @@
-const API_BASE = "https://trolley-q781.onrender.com";
+const API_URL = "https://trolley-q781.onrender.com/api";
 
-// Get all products
-export async function getProducts() {
-  const res = await fetch(`${API_BASE}/api/products`);
-  return res.json();
-}
-
-// Get product using barcode
-export async function getProductByBarcode(barcode) {
-  const res = await fetch(`${API_BASE}/api/products/${barcode}`);
-  return res.json();
-}
-
-// Login
 export async function login(username, password) {
-  const res = await fetch(`${API_BASE}/api/login`, {
+  const res = await fetch(`${API_URL}/login`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
-
   return res.json();
 }
 
-// Create order
-export async function createOrder(orderData) {
-  const res = await fetch(`${API_BASE}/api/orders`, {
+export async function getProducts() {
+  const res = await fetch(`${API_URL}/products`);
+  return res.json();
+}
+
+export async function createOrder(order) {
+  const res = await fetch(`${API_URL}/orders`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(orderData),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(order),
   });
-
   return res.json();
 }
 
-// Get order details
-export async function getOrder(orderId) {
-  const res = await fetch(`${API_BASE}/api/orders/${orderId}`);
+export async function getOrders() {
+  const res = await fetch(`${API_URL}/orders`);
   return res.json();
 }
