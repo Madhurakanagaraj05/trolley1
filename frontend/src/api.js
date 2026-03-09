@@ -1,60 +1,51 @@
-/**
- * API helper - all backend calls go through this.
- * Base URL uses Vite proxy: /api -> http://localhost:5000
- */
-const API = '/api';
+// API base URL (Render backend)
+const API_BASE = "https://trolley-q781.onrender.com";
 
-async function parseJson(res) {
-  const text = await res.text();
-  if (!text || text.trim().startsWith('<')) {
-    throw new Error('Backend not running. Start it with: cd backend && node src/index.js');
-  }
+// Get all products
+export async function getAllProducts() {
   try {
-    return JSON.parse(text);
-  } catch {
-    throw new Error('Backend not running. Start it with: cd backend && node src/index.js');
+    const response = await fetch(`${API_BASE}/api/products`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return { success: false, products: [] };
   }
 }
 
-export async function login(username, password) {
-  const res = await fetch(`${API}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
-  });
-  const data = await parseJson(res);
-  if (!res.ok) throw new Error(data.message || 'Login failed');
-  return data;
-}
 
+// Get product by barcode
 export async function getProductByBarcode(barcode) {
-  const res = await fetch(`${API}/products/barcode/${encodeURIComponent(barcode)}`);
-  const data = await parseJson(res);
-  if (!res.ok) throw new Error(data.message || 'Product not found');
-  return data.product;
+  try {
+    const response = await fetch(
+      `${API_BASE}/api/products/barcode/${barcode}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Product not found");
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return { success: false, product: null };
+  }
 }
 
-export async function createOrder(payload) {
-  const res = await fetch(`${API}/orders`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  const data = await parseJson(res);
-  if (!res.ok) throw new Error(data.message || 'Failed to create order');
-  return data;
-}
 
-export async function getOrder(orderId) {
-  const res = await fetch(`${API}/orders/${encodeURIComponent(orderId)}`);
-  const data = await parseJson(res);
-  if (!res.ok) throw new Error(data.message || 'Order not found');
-  return data.order;
-}
-
-export async function getOrders() {
-  const res = await fetch(`${API}/orders`);
-  const data = await parseJson(res);
-  if (!res.ok) throw new Error(data.message || 'Failed to fetch orders');
-  return data.orders;
+// Wake backend (helps when Render service sleeps)
+export async function wakeBackend() {
+  try {
+    await fetch(`${API_BASE}/api/products`);
+  } catch (error) {
+    console.log("Backend wake attempt");
+  }
 }
