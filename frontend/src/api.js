@@ -1,6 +1,7 @@
 // src/api.js
 const API_URL = "https://trolley-q781.onrender.com/api";
 
+// Login
 export async function login(username, password) {
   try {
     const res = await fetch(`${API_URL}/login`, {
@@ -8,38 +9,36 @@ export async function login(username, password) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
     });
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (err) {
-    console.error("Login error:", err);
+    console.error(err);
     return { success: false, message: "Login failed" };
   }
 }
 
+// Get all products
 export async function getProducts() {
   try {
     const res = await fetch(`${API_URL}/products`);
-    if (!res.ok) throw new Error("Network response not OK");
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (err) {
-    console.error("Failed to fetch products:", err);
+    console.error(err);
     return { success: false, products: [] };
   }
 }
 
+// Get product by barcode
 export async function getProductByBarcode(barcode) {
   try {
     const res = await fetch(`${API_URL}/products/barcode/${barcode}`);
-    if (!res.ok) throw new Error("Product not found");
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (err) {
-    console.error("Failed to fetch product by barcode:", err);
+    console.error(err);
     return { success: false, product: null };
   }
 }
 
+// Create an order
 export async function createOrder(items, total) {
   try {
     const res = await fetch(`${API_URL}/orders`, {
@@ -47,21 +46,34 @@ export async function createOrder(items, total) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items, total })
     });
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (err) {
-    console.error("Failed to create order:", err);
+    console.error(err);
     return { success: false, order: null };
   }
 }
 
+// Get all orders
 export async function getOrders() {
   try {
     const res = await fetch(`${API_URL}/orders`);
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (err) {
-    console.error("Failed to fetch orders:", err);
+    console.error(err);
     return { success: false, orders: [] };
+  }
+}
+
+// Get single order by id
+export async function getOrder(orderId) {
+  try {
+    const res = await fetch(`${API_URL}/orders`);
+    const data = await res.json();
+    if (!data.success) return { success: false, order: null };
+    const order = data.orders.find(o => o.id === Number(orderId));
+    return order ? { success: true, order } : { success: false, order: null };
+  } catch (err) {
+    console.error(err);
+    return { success: false, order: null };
   }
 }
