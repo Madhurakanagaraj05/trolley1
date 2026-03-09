@@ -68,6 +68,7 @@ export default function Payment() {
   }, [navigate]);
 
   const totalAmount = pending?.totalAmount ?? 0;
+  const totalWeight = pending?.totalWeight ?? 0; // grams
   const cart = pending?.cart ?? [];
 
   const orderPayload = () => ({
@@ -82,6 +83,7 @@ export default function Payment() {
       weightGrams: i.weightGrams || 0,
     })),
     totalAmount,
+    totalWeight,
     paymentMode: method === 'gpay' ? 'GPay' : method === 'card' ? 'Card' : 'Cash',
     paymentStatus: method === 'cash' ? 'PENDING' : 'PAID',
   });
@@ -169,6 +171,11 @@ export default function Payment() {
     <div className={styles.page}>
       <h2 className={styles.title}>Payment</h2>
       <div className={styles.total}>Total: ₹{totalAmount.toFixed(2)}</div>
+      {totalWeight > 0 && (
+        <div className={styles.totalWeight}>
+          Total weight: {(totalWeight / 1000).toFixed(2)} kg
+        </div>
+      )}
 
       {!method ? (
         <div className={styles.methodGrid}>

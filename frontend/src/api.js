@@ -86,6 +86,7 @@ export async function getOrder(orderId) {
     paymentMode: o.paymentMode || o.payment_mode || "Unknown",
     paymentStatus: o.paymentStatus || o.payment_status || "PAID",
     totalAmount: o.totalAmount || o.total || o.total_amount,
+    totalWeight: o.totalWeight || o.total_weight || 0,
     items: o.items || o.cart || [],
   };
 }

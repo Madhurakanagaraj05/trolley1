@@ -36,7 +36,11 @@ export default function Invoice() {
     doc.text(`UPI ID: ${UPI_ID}`, 14, 28);
     doc.text(`Order ID: ${order.orderId}`, 14, 34);
     doc.text(`Date: ${new Date(order.createdAt).toLocaleString()}`, 14, 40);
+    const totalWeightKg = order.totalWeight ? (order.totalWeight / 1000).toFixed(2) : null;
     doc.text(`Payment: ${order.paymentMode} | Status: ${order.paymentStatus}`, 14, 46);
+    if (totalWeightKg) {
+      doc.text(`Total weight: ${totalWeightKg} kg`, 14, 52);
+    }
 
     const tableData = order.items.map((i) => [
       i.productName,
@@ -46,7 +50,7 @@ export default function Invoice() {
       `₹${i.subtotal.toFixed(2)}`,
     ]);
     autoTable(doc, {
-      startY: 52,
+      startY: totalWeightKg ? 58 : 52,
       head: [['Product', 'Barcode', 'Price', 'Qty', 'Subtotal']],
       body: tableData,
     });
@@ -79,6 +83,9 @@ export default function Invoice() {
           <p><strong>Payment Status:</strong> {order.paymentStatus}</p>
           {order.paymentStatus === 'PENDING' && (
             <p className={styles.pendingMsg}>Please visit the cash counter to complete your payment.</p>
+          )}
+          {order.totalWeight > 0 && (
+            <p><strong>Total Weight:</strong> {(order.totalWeight / 1000).toFixed(2)} kg</p>
           )}
         </div>
         <table className={styles.table}>
