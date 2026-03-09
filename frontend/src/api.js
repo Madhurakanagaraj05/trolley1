@@ -1,6 +1,4 @@
-// frontend/src/api.js
-
-const API_URL = "https://trolley-q781.onrender.com/api"; // <-- your backend URL
+const API_URL = "https://trolley-q781.onrender.com/api"; // your backend URL
 
 // 1️⃣ Login
 export async function login(username, password) {
@@ -23,8 +21,7 @@ export async function getProductByBarcode(barcode) {
   const data = await getProducts();
   if (!data.success) return null;
 
-  const product = data.products.find((p) => p.barcode === barcode);
-  return product || null;
+  return data.products.find((p) => p.barcode === barcode) || null;
 }
 
 // 4️⃣ Create a new order
@@ -41,4 +38,12 @@ export async function createOrder(order) {
 export async function getOrders() {
   const res = await fetch(`${API_URL}/orders`);
   return res.json();
+}
+
+// 6️⃣ Get single order by ID
+export async function getOrder(id) {
+  const data = await getOrders();
+  if (!data.success) return null;
+
+  return data.orders.find(order => order.id === Number(id)) || null;
 }
