@@ -1,9 +1,10 @@
+// backend/src/index.js
 const express = require("express");
 const cors = require("cors");
 
-// Import routes
+// Correct file names (plural)
 const productRoutes = require("./routes/products");
-const orderRoutes = require("./routes/orders");
+const orderRoutes = require("./routes/orders");  // <-- orders.js
 const authRoutes = require("./routes/auth");
 
 const app = express();
