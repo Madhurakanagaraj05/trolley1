@@ -1,6 +1,6 @@
 // src/api.js
 // Deployed backend base URL
-const API_URL = "https://trolley-q781.onrender.com/api";
+const API_URL = "https://trolley1-au7a.vercel.app/api";
 
 // Normalized helpers so the UI always gets the shapes it expects
 
