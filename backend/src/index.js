@@ -18,7 +18,7 @@ const allowedOrigins = [
   "http://localhost:3003",
   "http://localhost:3004",
   "http://localhost:3005",
-  "https://trolley-rho.vercel.app",
+  "https://trolley1.vercel.app",
 ];
 
 app.use(
